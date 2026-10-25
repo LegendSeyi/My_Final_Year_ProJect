@@ -1,0 +1,41 @@
+
+mqtt:
+  enabled: true
+  host: 192.168.8.135
+  port: 1883
+  user: admin
+  password: "1"
+
+detectors:
+  ov:
+    type: openvino
+    device: CPU
+
+model:
+  width: 300
+  height: 300
+  input_tensor: nhwc
+  input_pixel_format: bgr
+  path: /openvino-model/ssdlite_mobilenet_v2.xml
+  labelmap_path: /openvino-model/coco_91cl_bkgr.txt
+
+cameras:   # No cameras defined, UI wizard should be used
+  bird_eye:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: http://http://192.168.8.15:8080/
+          roles:
+            - detect
+    detect:
+      enabled: true
+      width: 640
+      height: 480
+      fps: 5
+    objects:
+      track:
+        - person
+      
+      
+
+version: 0.17-0

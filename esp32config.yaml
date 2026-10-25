@@ -1,0 +1,101 @@
+esphome:
+  name: esp32-cam
+  friendly_name: ESP32-CAM
+
+esp32:
+  board: esp32cam
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+  level: DEBUG
+
+psram:
+  mode: quad
+  speed: 80MHz
+  
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "3mOegCVQ+C1YMIUQdtllYq54qunTHNfyFtTHWPbrQbo="
+
+ota:
+  - platform: esphome
+    password: "e9777555e1accff97f86f95ee974c8be"
+
+wifi:
+  ssid: "Owiwii"
+  password: "Emmanuel1*"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esp32-Cam Fallback Hotspot"
+    password: "SdqWzAkfDv1P"
+
+web_server:
+  port: 80
+
+captive_portal:
+
+esp32_camera:
+  name: ESP32 CAM
+
+  external_clock:
+    pin: GPIO0
+    frequency: 20MHz
+
+  i2c_pins:
+    sda: GPIO26
+    scl: GPIO27
+
+  data_pins:
+    - GPIO5
+    - GPIO18
+    - GPIO19
+    - GPIO21
+    - GPIO36
+    - GPIO39
+    - GPIO34
+    - GPIO35
+
+  vsync_pin: GPIO25
+  href_pin: GPIO23
+  pixel_clock_pin: GPIO22
+  power_down_pin: GPIO32
+
+  resolution: 640x480
+  jpeg_quality: 10
+  idle_framerate: 0.1 fps
+
+
+
+  # Image settings
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor"
+    update_interval: 2s
+  - platform: uptime
+    name: Uptime Sensor
+
+
+esp32_camera_web_server:
+  - port: 8080
+    mode: stream
+  - port: 8081
+    mode: snapshot
+  # ...
+# Flashlight
+output:
+  - platform: gpio
+    pin: GPIO4
+    id: gpio_4
+
+## GPIO_4 is the flash light pin
+light:
+  - platform: binary
+    output: gpio_4
+    name: flashlight
+    
